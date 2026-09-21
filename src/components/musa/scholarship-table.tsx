@@ -1,0 +1,16 @@
+import { Search, SlidersHorizontal } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { formatMoney, scholarships, type Scholarship, type ScholarshipStatus } from "@/data/mock-scholarships";
+
+export function ScholarshipTable({ onSelect }: { onSelect?: (item: Scholarship)=>void }) {
+ const [query,setQuery]=useState(""); const [filter,setFilter]=useState<"All"|ScholarshipStatus>("All");
+ const visible=useMemo(()=>scholarships.filter(s=>(filter==="All"||s.status===filter)&&`${s.name} ${s.provider}`.toLowerCase().includes(query.toLowerCase())),[query,filter]);
+ return <div className="border border-border bg-card">
+  <div className="flex flex-col gap-3 border-b border-border p-3 sm:flex-row sm:items-center sm:justify-between"><div className="relative w-full sm:max-w-xs"><Search className="absolute left-3 top-2.5 text-muted-foreground" size={15}/><Input aria-label="Search scholarships" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search scholarships" className="pl-9"/></div><div className="flex items-center gap-1 overflow-x-auto"><SlidersHorizontal size={14} className="mr-2 text-muted-foreground"/>{(["All","Compatible","Conflict","Review"] as const).map(x=><Button key={x} size="sm" variant={filter===x?"default":"ghost"} onClick={()=>setFilter(x)}>{x}</Button>)}</div></div>
+  <div className="overflow-x-auto"><table className="w-full min-w-[760px] text-left text-sm"><thead className="border-b border-border bg-muted/60 font-mono text-[9px] uppercase text-muted-foreground"><tr><th className="px-4 py-3 font-medium">Scholarship</th><th className="px-4 py-3 font-medium">Provider</th><th className="px-4 py-3 font-medium">Benefit</th><th className="px-4 py-3 font-medium">Eligibility</th><th className="px-4 py-3 font-medium">Compatibility</th><th className="px-4 py-3 font-medium">Status</th></tr></thead><tbody>{visible.map(s=><tr key={s.id} onClick={()=>onSelect?.(s)} className="cursor-pointer border-b border-border transition-colors last:border-0 hover:bg-accent"><td className="px-4 py-3"><b className="font-medium">{s.name}</b><div className="mt-0.5 font-mono text-[9px] text-muted-foreground">{s.shortId}</div></td><td className="px-4 py-3 text-muted-foreground">{s.provider}</td><td className="px-4 py-3 font-mono font-semibold">{formatMoney(s.benefit)}</td><td className="px-4 py-3"><span className="text-success">✓</span> {s.eligibility}%</td><td className="px-4 py-3 text-muted-foreground">{s.conflictWith ? `Conflict with ${s.conflictWith}` : s.status}</td><td className="px-4 py-3"><StatusBadge status={s.status}/></td></tr>)}</tbody></table></div>
+  {!visible.length&&<div className="p-10 text-center text-sm text-muted-foreground">No scholarships match these filters.</div>}
+ </div>
+}
+export function StatusBadge({status}:{status:ScholarshipStatus}) { const styles=status==="Compatible"?"border-success/30 bg-success/10 text-success":status==="Conflict"?"border-destructive/30 bg-destructive/10 text-destructive":"border-warning/30 bg-warning/10 text-warning"; return <span className={`inline-flex border px-2 py-1 font-mono text-[9px] uppercase ${styles}`}>{status}</span> }
