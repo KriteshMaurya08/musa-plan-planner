@@ -10,33 +10,80 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CompatibilityRouteImport } from './routes/compatibility'
+import { Route as DocumentsRouteImport } from './routes/documents'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ScholarshipsRouteImport } from './routes/scholarships'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompatibilityRoute = CompatibilityRouteImport.update({
+  id: '/compatibility',
+  path: '/compatibility',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentsRoute = DocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScholarshipsRoute = ScholarshipsRouteImport.update({
+  id: '/scholarships',
+  path: '/scholarships',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/compatibility': typeof CompatibilityRoute
+  '/documents': typeof DocumentsRoute
+  '/profile': typeof ProfileRoute
+  '/scholarships': typeof ScholarshipsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/compatibility': typeof CompatibilityRoute
+  '/documents': typeof DocumentsRoute
+  '/profile': typeof ProfileRoute
+  '/scholarships': typeof ScholarshipsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/compatibility': typeof CompatibilityRoute
+  '/documents': typeof DocumentsRoute
+  '/profile': typeof ProfileRoute
+  '/scholarships': typeof ScholarshipsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/compatibility' | '/documents' | '/profile' | '/scholarships'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/compatibility' | '/documents' | '/profile' | '/scholarships'
+  id:
+    | '__root__'
+    | '/'
+    | '/compatibility'
+    | '/documents'
+    | '/profile'
+    | '/scholarships'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CompatibilityRoute: typeof CompatibilityRoute
+  DocumentsRoute: typeof DocumentsRoute
+  ProfileRoute: typeof ProfileRoute
+  ScholarshipsRoute: typeof ScholarshipsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +95,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/compatibility': {
+      id: '/compatibility'
+      path: '/compatibility'
+      fullPath: '/compatibility'
+      preLoaderRoute: typeof CompatibilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documents': {
+      id: '/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof DocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scholarships': {
+      id: '/scholarships'
+      path: '/scholarships'
+      fullPath: '/scholarships'
+      preLoaderRoute: typeof ScholarshipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CompatibilityRoute: CompatibilityRoute,
+  DocumentsRoute: DocumentsRoute,
+  ProfileRoute: ProfileRoute,
+  ScholarshipsRoute: ScholarshipsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
