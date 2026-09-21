@@ -11,9 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CompatibilityRouteImport } from './routes/compatibility'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DocumentsRouteImport } from './routes/documents'
+import { Route as PlansRouteImport } from './routes/plans'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ScholarshipsRouteImport } from './routes/scholarships'
+import { Route as WhatIfRouteImport } from './routes/what-if'
+import { Route as PlansPlanIdRouteImport } from './routes/plans.$planId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -25,9 +29,19 @@ const CompatibilityRoute = CompatibilityRouteImport.update({
   path: '/compatibility',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DocumentsRoute = DocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlansRoute = PlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -40,50 +54,96 @@ const ScholarshipsRoute = ScholarshipsRouteImport.update({
   path: '/scholarships',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WhatIfRoute = WhatIfRouteImport.update({
+  id: '/what-if',
+  path: '/what-if',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlansPlanIdRoute = PlansPlanIdRouteImport.update({
+  id: '/$planId',
+  path: '/$planId',
+  getParentRoute: () => PlansRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/compatibility': typeof CompatibilityRoute
+  '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/plans': typeof PlansRouteWithChildren
   '/profile': typeof ProfileRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/what-if': typeof WhatIfRoute
+  '/plans/$planId': typeof PlansPlanIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/compatibility': typeof CompatibilityRoute
+  '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/plans': typeof PlansRouteWithChildren
   '/profile': typeof ProfileRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/what-if': typeof WhatIfRoute
+  '/plans/$planId': typeof PlansPlanIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/compatibility': typeof CompatibilityRoute
+  '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/plans': typeof PlansRouteWithChildren
   '/profile': typeof ProfileRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/what-if': typeof WhatIfRoute
+  '/plans/$planId': typeof PlansPlanIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/compatibility' | '/documents' | '/profile' | '/scholarships'
+    | '/'
+    | '/compatibility'
+    | '/dashboard'
+    | '/documents'
+    | '/plans'
+    | '/profile'
+    | '/scholarships'
+    | '/what-if'
+    | '/plans/$planId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/compatibility' | '/documents' | '/profile' | '/scholarships'
+  to:
+    | '/'
+    | '/compatibility'
+    | '/dashboard'
+    | '/documents'
+    | '/plans'
+    | '/profile'
+    | '/scholarships'
+    | '/what-if'
+    | '/plans/$planId'
   id:
     | '__root__'
     | '/'
     | '/compatibility'
+    | '/dashboard'
     | '/documents'
+    | '/plans'
     | '/profile'
     | '/scholarships'
+    | '/what-if'
+    | '/plans/$planId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompatibilityRoute: typeof CompatibilityRoute
+  DashboardRoute: typeof DashboardRoute
   DocumentsRoute: typeof DocumentsRoute
+  PlansRoute: typeof PlansRouteWithChildren
   ProfileRoute: typeof ProfileRoute
   ScholarshipsRoute: typeof ScholarshipsRoute
+  WhatIfRoute: typeof WhatIfRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -102,11 +162,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompatibilityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/documents': {
       id: '/documents'
       path: '/documents'
       fullPath: '/documents'
       preLoaderRoute: typeof DocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plans': {
+      id: '/plans'
+      path: '/plans'
+      fullPath: '/plans'
+      preLoaderRoute: typeof PlansRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -123,15 +197,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScholarshipsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/what-if': {
+      id: '/what-if'
+      path: '/what-if'
+      fullPath: '/what-if'
+      preLoaderRoute: typeof WhatIfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plans/$planId': {
+      id: '/plans/$planId'
+      path: '/$planId'
+      fullPath: '/plans/$planId'
+      preLoaderRoute: typeof PlansPlanIdRouteImport
+      parentRoute: typeof PlansRoute
+    }
   }
 }
+
+interface PlansRouteChildren {
+  PlansPlanIdRoute: typeof PlansPlanIdRoute
+}
+
+const PlansRouteChildren: PlansRouteChildren = {
+  PlansPlanIdRoute: PlansPlanIdRoute,
+}
+
+const PlansRouteWithChildren = PlansRoute._addFileChildren(PlansRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompatibilityRoute: CompatibilityRoute,
+  DashboardRoute: DashboardRoute,
   DocumentsRoute: DocumentsRoute,
+  PlansRoute: PlansRouteWithChildren,
   ProfileRoute: ProfileRoute,
   ScholarshipsRoute: ScholarshipsRoute,
+  WhatIfRoute: WhatIfRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
