@@ -1,24 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, BadgeCheck, BarChart3, CircleDollarSign, GitMerge, ScanSearch } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CompatibilityGraph } from "@/components/musa/compatibility-graph";
+export const Route=createFileRoute("/")({head:()=>({meta:[{title:"MUSA CodeX — Scholarship Decision Intelligence"},{name:"description",content:"Analyze scholarship eligibility, conflicts, compatibility, and potential plans."},{property:"og:title",content:"MUSA CodeX — Scholarship Decision Intelligence"},{property:"og:description",content:"Find scholarships, understand conflicts, and build a compatible funding plan."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Index});
+const capabilities=[[ScanSearch,"Eligibility Intelligence","Test profile evidence against every stored requirement."],[GitMerge,"Scholarship Compatibility","Map combinations, exclusions, and uncertain relationships."],[BadgeCheck,"Explainable Decisions","Trace every result to a clear eligibility or compatibility rule."],[CircleDollarSign,"Benefit Planning","Compare valid plans by value, effort, and confidence."] ] as const;
+function Index(){return <main className="min-h-screen bg-background"><header className="flex h-20 items-center justify-between border-b border-border px-5 lg:px-10"><div className="flex items-center gap-3"><span className="grid size-9 place-items-center bg-primary text-primary-foreground"><BarChart3 size={18}/></span><b className="font-display text-lg">MUSA CodeX</b></div><div className="flex items-center gap-2"><Button asChild variant="ghost"><Link to="/dashboard">View demo</Link></Button><Button asChild><Link to="/profile">Build my plan <ArrowRight/></Link></Button></div></header><section className="grid-pattern border-b border-border px-5 py-12 lg:px-10 lg:py-16"><div className="mx-auto grid max-w-[1480px] items-center gap-12 xl:grid-cols-[0.82fr_1.18fr]"><div><div className="inline-flex border border-primary/30 bg-primary/5 px-3 py-1 font-mono text-[10px] uppercase text-primary">Scholarship decision intelligence</div><h1 className="mt-6 font-display text-5xl font-semibold leading-[1.04] sm:text-6xl">Find scholarships.<br/>Understand conflicts.<br/><span className="text-primary">Build your plan.</span></h1><p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground">MUSA analyzes your profile, maps scholarship compatibility, detects conflicts, and helps you understand the scholarship combinations available to you.</p><div className="mt-8 flex flex-wrap gap-3"><Button asChild size="lg"><Link to="/profile">Build My Scholarship Plan <ArrowRight/></Link></Button><Button asChild size="lg" variant="outline"><Link to="/compatibility">Explore Compatibility</Link></Button></div><div className="mt-12 flex flex-wrap items-center gap-2 font-mono text-[10px] text-muted-foreground">{["PROFILE","ELIGIBILITY","COMPATIBILITY","PLANS"].map((x,i)=><span key={x} className="contents"><span className="border border-border bg-background px-2 py-1">{x}</span>{i<3&&<ArrowRight size={12}/>}</span>)}</div></div><div className="min-w-0"><div className="mb-3 flex items-center justify-between"><span className="font-mono text-[10px] text-muted-foreground">LIVE SYSTEM PREVIEW / COMPATIBILITY MAP</span><span className="font-mono text-[10px] text-success">● ANALYSIS READY</span></div><CompatibilityGraph compact/></div></div></section><section className="mx-auto max-w-[1480px] px-5 py-16 lg:px-10"><div className="grid border-l border-t border-border md:grid-cols-2 xl:grid-cols-4">{capabilities.map(([Icon,title,text],i)=><article key={title} className="border-b border-r border-border p-6"><span className="font-mono text-[9px] text-muted-foreground">0{i+1}</span><Icon className="mt-8 text-primary" size={22}/><h2 className="mt-4 font-display text-lg font-semibold">{title}</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">{text}</p></article>)}</div><div className="mt-16 grid gap-8 border-t border-border pt-10 lg:grid-cols-2"><h2 className="font-display text-3xl font-semibold">Beyond scholarship search.</h2><p className="max-w-2xl text-base leading-7 text-muted-foreground">Most tools stop after finding possible awards. MUSA is designed around the harder question: which eligible scholarships can work together? It evaluates combinations, removes conflicts, and presents transparent plans without hiding the rules behind a score.</p></div></section></main>}

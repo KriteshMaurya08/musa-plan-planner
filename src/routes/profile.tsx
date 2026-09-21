@@ -1,0 +1,5 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { AppShell } from "@/components/musa/app-shell";
+import { StudentProfileForm } from "@/components/musa/student-profile-form";
+export const Route=createFileRoute("/profile")({head:()=>({meta:[{title:"Student Profile — MUSA CodeX"},{name:"description",content:"Build a student profile for scholarship eligibility analysis."},{property:"og:title",content:"Student Profile — MUSA CodeX"},{property:"og:description",content:"Enter academic and financial details for scholarship analysis."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:Page});
+function Page(){return <AppShell title="Student Profile" eyebrow="Analysis input / profile"><div className="mx-auto max-w-5xl"><div className="mb-6 max-w-2xl"><p className="text-sm leading-6 text-muted-foreground">Complete your profile to test eligibility requirements and generate compatible scholarship combinations.</p></div><StudentProfileForm/></div></AppShell>}
