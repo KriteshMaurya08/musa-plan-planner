@@ -162,9 +162,16 @@
 }
 
 .react-flow__edge.edge-compatible path { stroke: var(--success); }
-.react-flow__edge.edge-conflict path { stroke: var(--destructive); stroke-dasharray: 5 4; }
+.react-flow__edge.edge-conflict path { stroke: var(--destructive); stroke-dasharray: 6 4; }
 .react-flow__edge.edge-related path { stroke: var(--muted-foreground); stroke-dasharray: 2 5; }
-.react-flow__edge-textbg { fill: var(--card); }
-.react-flow__controls { border: 1px solid var(--border); box-shadow: none; border-radius: 0; }
-.react-flow__controls-button { background: var(--card); color: var(--foreground); border-bottom-color: var(--border); }
+.react-flow__edge.edge-muted { opacity: 0.34; transition: opacity 180ms ease; }
+.react-flow__edge.edge-active { opacity: 1; filter: drop-shadow(0 1px 2px color-mix(in oklab, var(--foreground) 10%, transparent)); }
+.react-flow__edge:hover { opacity: 1; }
+.react-flow__edge-textbg { fill: var(--card); stroke: var(--border); stroke-width: 0.5px; }
+.react-flow__edge-text { fill: var(--foreground); }
+.react-flow__controls { border: 1px solid var(--border); box-shadow: none; border-radius: 0; overflow: hidden; margin: 12px; }
+.react-flow__controls-button { background: color-mix(in oklab, var(--card) 94%, transparent); color: var(--foreground); border-bottom-color: var(--border); }
+.react-flow__controls-button:hover { background: var(--accent); }
 .react-flow__background { background: var(--card); }
+.react-flow__node { transition: opacity 180ms ease, filter 180ms ease; }
+.react-flow__node:hover { z-index: 5 !important; }
